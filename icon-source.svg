@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#6c5ce7"/>
+  <polygon points="200,170 216,110 234,170" fill="#a5d6a7" stroke="#2e7d32" stroke-width="4"/>
+  <polygon points="278,170 296,110 312,170" fill="#a5d6a7" stroke="#2e7d32" stroke-width="4"/>
+  <ellipse cx="256" cy="292" rx="152" ry="132" fill="#4caf50" stroke="#2e7d32" stroke-width="8"/>
+  <rect x="96" y="256" width="76" height="22" rx="11" fill="#388e3c"/>
+  <rect x="340" y="256" width="76" height="22" rx="11" fill="#388e3c"/>
+  <rect x="196" y="384" width="34" height="54" rx="14" fill="#388e3c"/>
+  <rect x="282" y="384" width="34" height="54" rx="14" fill="#388e3c"/>
+  <circle cx="208" cy="262" r="40" fill="#ffffff"/>
+  <circle cx="304" cy="262" r="40" fill="#ffffff"/>
+  <circle cx="216" cy="268" r="19" fill="#263238"/>
+  <circle cx="312" cy="268" r="19" fill="#263238"/>
+  <circle cx="208" cy="256" r="7" fill="#ffffff"/>
+  <circle cx="304" cy="256" r="7" fill="#ffffff"/>
+  <path d="M 198 332 Q 256 388 314 332" fill="none" stroke="#1b2b1d" stroke-width="12" stroke-linecap="round"/>
+  <rect x="238" y="326" width="16" height="18" fill="#ffffff"/>
+  <rect x="258" y="326" width="16" height="18" fill="#ffffff"/>
+</svg>

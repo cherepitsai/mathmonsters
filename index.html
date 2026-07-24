@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Игра вычисления</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Игра вычисления">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+</head>
+<body>
+  <div id="storage-warning-banner" class="storage-warning-banner hidden">
+    Хранилище недоступно: прогресс не будет сохранён в этой сессии.
+    <button id="btn-dismiss-storage-warning" class="dismiss-banner-btn">×</button>
+  </div>
+
+  <div id="screen-main-menu" class="screen">
+    <h1 class="main-menu-title">Игра вычисления</h1>
+    <div class="main-menu-buttons">
+      <button id="btn-start-game" class="menu-btn">Начать игру</button>
+      <button id="btn-open-settings" class="menu-btn">Настройки</button>
+    </div>
+  </div>
+
+  <div id="screen-play-picker" class="screen hidden">
+    <button class="back-btn" id="btn-back-play-picker">← Назад</button>
+    <h2>Выберите профиль</h2>
+    <div id="play-profile-list" class="profile-list"></div>
+    <button id="btn-add-profile-play" class="add-profile-btn">+ Добавить профиль</button>
+  </div>
+
+  <div id="screen-settings-picker" class="screen hidden">
+    <button class="back-btn" id="btn-back-settings-picker">← Назад</button>
+    <h2>Настройки профилей</h2>
+    <div id="settings-profile-list" class="profile-list"></div>
+    <button id="btn-add-profile-settings" class="add-profile-btn">+ Добавить профиль</button>
+    <div class="backup-actions">
+      <button id="btn-export-backup">Экспорт резервной копии</button>
+      <button id="btn-import-backup">Импорт резервной копии</button>
+      <input type="file" id="import-file-input" accept=".json,application/json" class="hidden">
+    </div>
+    <div id="import-error" class="import-error hidden"></div>
+  </div>
+
+  <div id="screen-profile-settings" class="screen hidden">
+    <button class="back-btn" id="btn-back-profile-settings">← Назад</button>
+    <h2 id="profile-settings-heading"></h2>
+
+    <div class="op-block" data-op="add">
+      <label class="op-master-label">
+        <input type="checkbox" class="op-master" data-op="add"> Сложение
+      </label>
+      <div class="op-numbers">
+        <label><input type="checkbox" class="op-number" data-op="add" data-number="1">1</label>
+        <label><input type="checkbox" class="op-number" data-op="add" data-number="2">2</label>
+        <label><input type="checkbox" class="op-number" data-op="add" data-number="3">3</label>
+        <label><input type="checkbox" class="op-number" data-op="add" data-number="4">4</label>
+        <label><input type="checkbox" class="op-number" data-op="add" data-number="5">5</label>
+        <label><input type="checkbox" class="op-number" data-op="add" data-number="6">6</label>
+        <label><input type="checkbox" class="op-number" data-op="add" data-number="7">7</label>
+        <label><input type="checkbox" class="op-number" data-op="add" data-number="8">8</label>
+        <label><input type="checkbox" class="op-number" data-op="add" data-number="9">9</label>
+        <label><input type="checkbox" class="op-number" data-op="add" data-number="10">10</label>
+        <label><input type="checkbox" class="op-gt10" data-op="add">&gt;10</label>
+      </div>
+    </div>
+
+    <div class="op-block" data-op="sub">
+      <label class="op-master-label">
+        <input type="checkbox" class="op-master" data-op="sub"> Вычитание
+      </label>
+      <div class="op-numbers">
+        <label><input type="checkbox" class="op-number" data-op="sub" data-number="1">1</label>
+        <label><input type="checkbox" class="op-number" data-op="sub" data-number="2">2</label>
+        <label><input type="checkbox" class="op-number" data-op="sub" data-number="3">3</label>
+        <label><input type="checkbox" class="op-number" data-op="sub" data-number="4">4</label>
+        <label><input type="checkbox" class="op-number" data-op="sub" data-number="5">5</label>
+        <label><input type="checkbox" class="op-number" data-op="sub" data-number="6">6</label>
+        <label><input type="checkbox" class="op-number" data-op="sub" data-number="7">7</label>
+        <label><input type="checkbox" class="op-number" data-op="sub" data-number="8">8</label>
+        <label><input type="checkbox" class="op-number" data-op="sub" data-number="9">9</label>
+        <label><input type="checkbox" class="op-number" data-op="sub" data-number="10">10</label>
+        <label><input type="checkbox" class="op-gt10" data-op="sub">&gt;10</label>
+      </div>
+    </div>
+
+    <div class="op-block" data-op="mul">
+      <label class="op-master-label">
+        <input type="checkbox" class="op-master" data-op="mul"> Умножение
+      </label>
+      <div class="op-numbers">
+        <label><input type="checkbox" class="op-number" data-op="mul" data-number="1">1</label>
+        <label><input type="checkbox" class="op-number" data-op="mul" data-number="2">2</label>
+        <label><input type="checkbox" class="op-number" data-op="mul" data-number="3">3</label>
+        <label><input type="checkbox" class="op-number" data-op="mul" data-number="4">4</label>
+        <label><input type="checkbox" class="op-number" data-op="mul" data-number="5">5</label>
+        <label><input type="checkbox" class="op-number" data-op="mul" data-number="6">6</label>
+        <label><input type="checkbox" class="op-number" data-op="mul" data-number="7">7</label>
+        <label><input type="checkbox" class="op-number" data-op="mul" data-number="8">8</label>
+        <label><input type="checkbox" class="op-number" data-op="mul" data-number="9">9</label>
+        <label><input type="checkbox" class="op-number" data-op="mul" data-number="10">10</label>
+        <label><input type="checkbox" class="op-gt10" data-op="mul">&gt;10</label>
+      </div>
+    </div>
+
+    <div class="op-block" data-op="div">
+      <label class="op-master-label">
+        <input type="checkbox" class="op-master" data-op="div"> Деление
+      </label>
+      <div class="op-numbers">
+        <label><input type="checkbox" class="op-number" data-op="div" data-number="1">1</label>
+        <label><input type="checkbox" class="op-number" data-op="div" data-number="2">2</label>
+        <label><input type="checkbox" class="op-number" data-op="div" data-number="3">3</label>
+        <label><input type="checkbox" class="op-number" data-op="div" data-number="4">4</label>
+        <label><input type="checkbox" class="op-number" data-op="div" data-number="5">5</label>
+        <label><input type="checkbox" class="op-number" data-op="div" data-number="6">6</label>
+        <label><input type="checkbox" class="op-number" data-op="div" data-number="7">7</label>
+        <label><input type="checkbox" class="op-number" data-op="div" data-number="8">8</label>
+        <label><input type="checkbox" class="op-number" data-op="div" data-number="9">9</label>
+        <label><input type="checkbox" class="op-number" data-op="div" data-number="10">10</label>
+        <label><input type="checkbox" class="op-gt10" data-op="div">&gt;10</label>
+      </div>
+    </div>
+
+    <div id="stats-table" class="stats-table"></div>
+  </div>
+
+  <div id="screen-game" class="screen hidden">
+    <button id="btn-quit-game" class="quit-game-btn">Меню</button>
+
+    <div id="monster-stage" class="monster-stage">
+      <svg id="monster-svg" viewBox="0 0 300 300"></svg>
+    </div>
+
+    <div id="path-track" class="path-track">
+      <!-- 10 cells rendered by script.js -->
+    </div>
+
+    <div id="quiz-overlay" class="quiz-overlay">
+      <div class="quiz-popup">
+        <div id="question-text" class="question-text"></div>
+        <div id="answers-grid" class="answers-grid">
+          <button class="answer-btn" data-index="0"></button>
+          <button class="answer-btn" data-index="1"></button>
+          <button class="answer-btn" data-index="2"></button>
+          <button class="answer-btn" data-index="3"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="game-logic.js"></script>
+  <script src="profiles.js"></script>
+  <script src="storage.js"></script>
+  <script src="navigation.js"></script>
+  <script src="monster.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
