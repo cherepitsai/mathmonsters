@@ -36,3 +36,7 @@
 
 ## Timezone
 - N/A (no server, no timestamps stored)
+
+## Deployment
+- Hosted on GitHub Pages: https://cherepitsai.github.io/mathmonsters/ (repo: cherepitsai/mathmonsters, branch `main`, root path). Push to `main` to deploy — GitHub Pages rebuilds automatically (~30-60s).
+- `index.html`'s `<link>`/`<script>` tags for `style.css`/`game-logic.js`/`profiles.js`/`storage.js`/`navigation.js`/`monster.js`/`script.js` carry a `?v=N` cache-busting query string. **Bump every `?v=N` by 1 whenever any of those files change**, so iPads (especially ones that added the app to the Home Screen) fetch the new version immediately instead of serving a cached copy. The query string doesn't affect localStorage (scoped by origin, not query string), so bumping it never loses saved profiles/stats.
