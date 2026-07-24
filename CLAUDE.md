@@ -16,6 +16,7 @@
 
 ## Folder structure
 - App: `index.html`, `style.css`, `script.js`, `game-logic.js`, `profiles.js`, `storage.js`, `navigation.js`, `monster.js`, `manifest.webmanifest`, `icon-180.png`, `icon-512.png`, `icon-source.svg`
+- Sounds: `sounds/` (err1-3.wav for wrong answers, mnstr1-4.wav for monster part reveals)
 - Tests: `tests/` (plain JS test files, e.g. `tests/question-generation.test.js`)
 
 ## Architecture rules

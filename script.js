@@ -26,6 +26,37 @@ var gameState = {
 var currentMonsterSpec = null;
 var monsterPartsRevealed = 0;
 
+// Sound effects. Audio objects are created once and reused (currentTime
+// reset before each play) rather than re-created per play, to avoid
+// re-fetching the file every time.
+var ERROR_SOUND_URLS = ['sounds/err1.wav', 'sounds/err2.wav', 'sounds/err3.wav'];
+var MONSTER_SOUND_URLS = ['sounds/mnstr1.wav', 'sounds/mnstr2.wav', 'sounds/mnstr3.wav', 'sounds/mnstr4.wav'];
+var errorSounds = ERROR_SOUND_URLS.map(function (url) { return new Audio(url); });
+var monsterSounds = MONSTER_SOUND_URLS.map(function (url) { return new Audio(url); });
+var lastMonsterSoundIndex = -1;
+
+function playSound(audioEl) {
+  audioEl.currentTime = 0;
+  audioEl.play().catch(function () {});
+}
+
+function playRandomErrorSound() {
+  playSound(errorSounds[randomInt(0, errorSounds.length - 1)]);
+}
+
+// Picks a random monster sound, never repeating the same one twice in a
+// row (across consecutive calls, i.e. consecutive part reveals).
+function playRandomMonsterSound() {
+  var idx = randomInt(0, monsterSounds.length - 1);
+  if (monsterSounds.length > 1) {
+    while (idx === lastMonsterSoundIndex) {
+      idx = randomInt(0, monsterSounds.length - 1);
+    }
+  }
+  lastMonsterSoundIndex = idx;
+  playSound(monsterSounds[idx]);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   appState.data = loadData();
 
@@ -312,6 +343,7 @@ function handleAnswerTap(index, button) {
         startNewMonster();
       }
       revealMonsterPart(document.getElementById('monster-svg'), monsterPartsRevealed);
+      playRandomMonsterSound();
       monsterPartsRevealed++;
 
       gameState.position = advancePath(gameState.position, PATH_LENGTH);
@@ -325,6 +357,7 @@ function handleAnswerTap(index, button) {
     }
     option.wrongTapped = true;
     button.classList.add('wrong');
+    playRandomErrorSound();
     gameState.wrongAttempts++;
 
     if (gameState.wrongAttempts >= MAX_WRONG_ATTEMPTS) {
