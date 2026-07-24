@@ -4,12 +4,13 @@
 
 var PATH_LENGTH = 10;
 var CORRECT_DELAY_MS = 600;
+var MONSTER_SHRINK_DELAY_MS = 500;
 
 // Bumped by hand alongside index.html's asset "?v=" cache-busting query
 // strings on every deploy, so the on-screen label always matches what was
 // actually pushed — makes it easy to confirm an iPad picked up the latest
 // version. See CLAUDE.md's Deployment section.
-var APP_VERSION = '3';
+var APP_VERSION = '5';
 
 var appState = { data: null, currentProfileId: null };
 
@@ -99,6 +100,9 @@ function wireNavigation() {
   document.getElementById('btn-quit-game').addEventListener('click', function () {
     showScreen('screen-main-menu');
   });
+  document.getElementById('btn-current-profile').addEventListener('click', function () {
+    showScreen('screen-play-picker');
+  });
   document.getElementById('btn-add-profile-play').addEventListener('click', handleAddProfile);
   document.getElementById('btn-add-profile-settings').addEventListener('click', handleAddProfile);
 }
@@ -144,6 +148,7 @@ function startGameForProfile(profile) {
   gameState.locked = false;
 
   showScreen('screen-game');
+  document.getElementById('btn-current-profile').textContent = profile.letter;
   renderPathCells();
   highlightActiveCell();
   startNewMonster();
@@ -155,7 +160,26 @@ function startGameForProfile(profile) {
 function startNewMonster() {
   currentMonsterSpec = buildMonsterSpec();
   monsterPartsRevealed = 0;
-  renderMonsterSVG(document.getElementById('monster-svg'), currentMonsterSpec);
+  var svg = document.getElementById('monster-svg');
+  svg.classList.remove('shrinking');
+  renderMonsterSVG(svg, currentMonsterSpec);
+}
+
+// After too many wrong attempts (MAX_WRONG_ATTEMPTS): shrink the current
+// monster down to nothing, then reset progress to the very start (path
+// position 0, a brand new monster) and show a fresh question.
+function shrinkMonsterAndReset() {
+  gameState.locked = true;
+  var svg = document.getElementById('monster-svg');
+  svg.classList.add('shrinking');
+
+  setTimeout(function () {
+    gameState.position = 0;
+    startNewMonster();
+    highlightActiveCell();
+    nextQuestion();
+    gameState.locked = false;
+  }, MONSTER_SHRINK_DELAY_MS);
 }
 
 function openProfileSettings(profile) {
@@ -369,13 +393,10 @@ function handleAnswerTap(index, button) {
     gameState.wrongAttempts++;
 
     if (gameState.wrongAttempts >= MAX_WRONG_ATTEMPTS) {
-      // Too many wrong tries: swap in a fresh question, but don't advance
-      // the path/monster — only a correct answer does that.
-      gameState.locked = true;
-      setTimeout(function () {
-        nextQuestion();
-        gameState.locked = false;
-      }, CORRECT_DELAY_MS);
+      // Too many wrong tries: the current monster shrinks away, progress
+      // resets to the start, and a fresh question (and fresh monster)
+      // replaces the current one.
+      shrinkMonsterAndReset();
     }
   }
 }

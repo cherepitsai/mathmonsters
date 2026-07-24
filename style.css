@@ -11,7 +11,7 @@ html, body {
    (matches PATH_LENGTH). Replaces the old plain red-circle character. */
 .monster-stage {
   width: 100%;
-  height: 26vh;
+  height: 28vh;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -23,6 +23,14 @@ html, body {
   width: auto;
   height: 92%;
   max-width: 92%;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+/* Applied after too many wrong attempts: the whole monster shrinks away
+   to nothing before a fresh one takes its place. */
+.monster-stage svg.shrinking {
+  transform: scale(0.02);
+  opacity: 0;
 }
 
 .part {
@@ -38,26 +46,31 @@ html, body {
   transform: scale(1);
 }
 
-/* Path track: now a plain progress strip (no character token inside a
-   cell) — the current cell is just highlighted. */
+/* Path track: a row of small progress dots directly under the monster
+   (no more big rectangular cells / character token). */
 .path-track {
   display: flex;
   flex-direction: row;
-  align-items: stretch;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 10vh;
+  height: 4vh;
   box-sizing: border-box;
-  padding: 1vh 2vw;
-  gap: 1vw;
+  padding: 0.5vh 2vw;
+  gap: 1.5vw;
 }
 
 .cell {
-  flex: 1 1 0;
-  position: relative;
+  flex: 0 0 auto;
+  width: 2.2vh;
+  height: 2.2vh;
+  min-width: 10px;
+  min-height: 10px;
+  max-width: 18px;
+  max-height: 18px;
   background: #ffffff;
   border: 2px solid #c9d6e0;
-  border-radius: 12px;
-  min-width: 0;
+  border-radius: 50%;
 }
 
 .cell.active {
@@ -68,10 +81,10 @@ html, body {
 /* Quiz overlay */
 .quiz-overlay {
   position: fixed;
-  top: 36vh;
+  top: 32vh;
   left: 0;
   width: 100%;
-  height: 64vh;
+  height: 68vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -368,4 +381,26 @@ html, body {
 .app-version {
   font-size: 11px;
   color: #8a97a3;
+}
+
+/* Current-profile indicator / switcher (top-left of the game screen) */
+.current-profile-btn {
+  position: fixed;
+  top: 1vh;
+  left: 2vw;
+  z-index: 10;
+  width: 6vh;
+  height: 6vh;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 56px;
+  max-height: 56px;
+  border-radius: 50%;
+  font-size: clamp(16px, 3vh, 24px);
+  font-weight: 700;
+  color: #1a2733;
+  background: #f0f3f6;
+  border: 3px solid #c9d6e0;
+  cursor: pointer;
+  touch-action: manipulation;
 }
