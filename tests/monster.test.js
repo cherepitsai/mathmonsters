@@ -32,19 +32,22 @@ function testBuildMonsterSpecShape() {
 
     assert.ok(['smile', 'teeth', 'zigzag', 'round', 'flat'].includes(spec.mouth.kind));
 
-    assert.ok([0, 1, 2, 3].includes(spec.horns.count));
+    // horns/ears/tail/pattern/accessory must never resolve to "nothing
+    // visible" (no 0 count, no "not present", no "none" kind) — every one
+    // of the 10 reveal steps must show a visible change on the monster.
+    assert.ok([1, 2, 3].includes(spec.horns.count));
     assert.ok(['straight', 'curved', 'branched'].includes(spec.horns.kind));
 
-    assert.ok([0, 2].includes(spec.ears.count));
+    assert.strictEqual(spec.ears.count, 2);
     assert.ok(['round', 'pointy', 'floppy'].includes(spec.ears.kind));
 
-    assert.strictEqual(typeof spec.tail.present, 'boolean');
+    assert.strictEqual(spec.tail.present, true);
     assert.ok(['curl', 'straight', 'fork', 'paddle'].includes(spec.tail.kind));
 
-    assert.ok(['none', 'spots', 'stripes', 'patches'].includes(spec.pattern.kind));
+    assert.ok(['spots', 'stripes', 'patches'].includes(spec.pattern.kind));
     assert.ok(spec.pattern.count >= 4 && spec.pattern.count <= 9);
 
-    assert.ok(['none', 'glasses', 'hat', 'bowtie', 'wings', 'spikes'].includes(spec.accessory.kind));
+    assert.ok(['glasses', 'hat', 'bowtie', 'wings', 'spikes'].includes(spec.accessory.kind));
   }
 }
 

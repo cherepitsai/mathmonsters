@@ -68,24 +68,30 @@ function buildMonsterSpec() {
       width: monsterRand(24, 50)
     },
     horns: {
-      count: monsterChoice([0, 0, 1, 2, 3]),
+      // Every reveal step should show a visible change, so unlike the
+      // original reference generator this never picks "0 horns".
+      count: monsterChoice([1, 2, 3]),
       kind: monsterChoice(['straight', 'curved', 'branched'])
     },
     ears: {
-      count: monsterChoice([0, 2, 2]),
+      // Same reasoning as horns.count above: never "0 ears".
+      count: 2,
       kind: monsterChoice(['round', 'pointy', 'floppy'])
     },
     tail: {
-      present: monsterChance(0.75),
+      // Same reasoning: always present (was a 75% chance before).
+      present: true,
       kind: monsterChoice(['curl', 'straight', 'fork', 'paddle'])
     },
     pattern: {
-      kind: monsterChoice(['none', 'spots', 'stripes', 'patches']),
+      // Same reasoning: never "none" (was one of 4 equally-likely options).
+      kind: monsterChoice(['spots', 'stripes', 'patches']),
       hue: accentHue,
       count: monsterRandInt(4, 9)
     },
     accessory: {
-      kind: monsterChoice(['none', 'glasses', 'hat', 'bowtie', 'wings', 'spikes']),
+      // Same reasoning: never "none" (was one of 6 equally-likely options).
+      kind: monsterChoice(['glasses', 'hat', 'bowtie', 'wings', 'spikes']),
       hue: (accentHue + monsterRandInt(60, 180)) % 360
     }
   };
