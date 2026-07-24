@@ -7,12 +7,15 @@ var CORRECT_DELAY_MS = 600;
 
 var appState = { data: null, currentProfileId: null };
 
+var MAX_WRONG_ATTEMPTS = 2;
+
 var gameState = {
   profileId: null,
   position: 0,
   question: null,
   options: [],
-  locked: false
+  locked: false,
+  wrongAttempts: 0
 };
 
 // Monster shown above the path track: one part revealed per correct
@@ -257,6 +260,7 @@ function nextQuestion() {
 
   gameState.question = question;
   gameState.options = options;
+  gameState.wrongAttempts = 0;
 
   renderQuestion();
 }
@@ -321,6 +325,17 @@ function handleAnswerTap(index, button) {
     }
     option.wrongTapped = true;
     button.classList.add('wrong');
+    gameState.wrongAttempts++;
+
+    if (gameState.wrongAttempts >= MAX_WRONG_ATTEMPTS) {
+      // Too many wrong tries: swap in a fresh question, but don't advance
+      // the path/monster — only a correct answer does that.
+      gameState.locked = true;
+      setTimeout(function () {
+        nextQuestion();
+        gameState.locked = false;
+      }, CORRECT_DELAY_MS);
+    }
   }
 }
 
