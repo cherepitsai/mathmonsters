@@ -5,6 +5,12 @@
 var PATH_LENGTH = 10;
 var CORRECT_DELAY_MS = 600;
 
+// Bumped by hand alongside index.html's asset "?v=" cache-busting query
+// strings on every deploy, so the on-screen label always matches what was
+// actually pushed — makes it easy to confirm an iPad picked up the latest
+// version. See CLAUDE.md's Deployment section.
+var APP_VERSION = '3';
+
 var appState = { data: null, currentProfileId: null };
 
 var MAX_WRONG_ATTEMPTS = 2;
@@ -63,6 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!isStorageAvailable()) {
     showStorageWarning();
   }
+
+  document.getElementById('app-version').textContent = 'v' + APP_VERSION;
 
   wireDismissBanner();
   renderBothProfileLists();

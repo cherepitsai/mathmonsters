@@ -39,4 +39,7 @@
 
 ## Deployment
 - Hosted on GitHub Pages: https://cherepitsai.github.io/mathmonsters/ (repo: cherepitsai/mathmonsters, branch `main`, root path). Push to `main` to deploy — GitHub Pages rebuilds automatically (~30-60s).
-- `index.html`'s `<link>`/`<script>` tags for `style.css`/`game-logic.js`/`profiles.js`/`storage.js`/`navigation.js`/`monster.js`/`script.js` carry a `?v=N` cache-busting query string. **Bump every `?v=N` by 1 whenever any of those files change**, so iPads (especially ones that added the app to the Home Screen) fetch the new version immediately instead of serving a cached copy. The query string doesn't affect localStorage (scoped by origin, not query string), so bumping it never loses saved profiles/stats.
+- Single version number, kept in sync in two places on every deploy that changes any JS/CSS file:
+  1. `index.html`'s `<link>`/`<script>` tags all carry the same `?v=N` cache-busting query string — bump every occurrence to the same new N.
+  2. `script.js`'s `APP_VERSION` constant — bump to the same N. It's rendered as a small "vN" label under the "Меню" button on the game screen (`#app-version`), so the number on screen always matches what's actually deployed.
+  Bumping never loses saved profiles/stats — the query string doesn't affect localStorage (scoped by origin, not query string).

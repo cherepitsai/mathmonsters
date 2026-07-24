@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>Игра вычисления</title>
-  <link rel="stylesheet" href="style.css?v=1">
+  <link rel="stylesheet" href="style.css?v=3">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Игра вычисления">
@@ -129,7 +129,10 @@
   </div>
 
   <div id="screen-game" class="screen hidden">
-    <button id="btn-quit-game" class="quit-game-btn">Меню</button>
+    <div class="game-header">
+      <button id="btn-quit-game" class="quit-game-btn">Меню</button>
+      <div id="app-version" class="app-version"></div>
+    </div>
 
     <div id="monster-stage" class="monster-stage">
       <svg id="monster-svg" viewBox="0 0 300 300"></svg>
@@ -152,11 +155,11 @@
     </div>
   </div>
 
-  <script src="game-logic.js?v=1"></script>
-  <script src="profiles.js?v=1"></script>
-  <script src="storage.js?v=1"></script>
-  <script src="navigation.js?v=1"></script>
-  <script src="monster.js?v=2"></script>
-  <script src="script.js?v=1"></script>
+  <script src="game-logic.js?v=3"></script>
+  <script src="profiles.js?v=3"></script>
+  <script src="storage.js?v=3"></script>
+  <script src="navigation.js?v=3"></script>
+  <script src="monster.js?v=3"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>
